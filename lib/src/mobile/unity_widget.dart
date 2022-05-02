@@ -1,4 +1,4 @@
-part of flutter_unity_widget;
+part of flutter_unity_widget_io;
 
 // This counter is used to provide a stable "constant" initialization id
 // to the buildView function,
@@ -180,7 +180,9 @@ class _UnityWidgetState extends State<UnityWidget> {
   }
 
   Future<void> _onPlatformViewCreated(int id) async {
-    final controller = await UnityWidgetController.init(id, this);
+    log('** flutter unity controller setup complete **');
+    final controller = await MobileUnityWidgetController.init(id, this);
+    log('** flutter unity controller setup complete **');
     _controller = controller;
     widget.onUnityCreated(controller);
 
