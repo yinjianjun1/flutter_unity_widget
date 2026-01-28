@@ -160,6 +160,7 @@ var sharedApplication: UIApplication?
     @objc
     public func unityDidUnload(_ notification: Notification!) {
         unregisterUnityListener()
+        self.ufw.unloadApplication()
         self.ufw = nil
         self._isUnityReady = false
         self._isUnityLoaded = false
