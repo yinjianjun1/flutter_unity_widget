@@ -40,7 +40,7 @@ func UnityFrameworkLoad() -> UnityFramework? {
     var bundlePath: String? = nil
     bundlePath = Bundle.main.bundlePath
     bundlePath = (bundlePath ?? "") + "/Frameworks/UnityFramework.framework"
-    UnityLog("Try load UnityFramework at path: \(bundlePath)")
+    unityLog("Try load UnityFramework at path: \(bundlePath)")
 
     let bundle = Bundle(path: bundlePath ?? "")
     if bundle?.isLoaded == false {
@@ -87,7 +87,7 @@ var sharedApplication: UIApplication?
         }
 
         self.ufw = UnityFrameworkLoad()
-        UnityLog("ufw after load: \(String(describing: self.ufw))")
+        unityLog("ufw after load: \(String(describing: self.ufw))")
 
         self.ufw?.setDataBundleId("com.unity3d.framework")
 
@@ -96,7 +96,7 @@ var sharedApplication: UIApplication?
 
         if self.ufw?.appController() != nil {
             controller = self.ufw?.appController()
-            UnityLog("UnityAppController ready: \(appController)")
+            unityLog("UnityAppController ready: \(appController)")
 
             controller?.unityMessageHandler = self.unityMessageHandlers
             controller?.unitySceneLoadedHandler = self.unitySceneLoadedHandlers
@@ -116,7 +116,7 @@ var sharedApplication: UIApplication?
 
     // Create new unity player
     func createPlayer(completed: @escaping (_ view: UIView?) -> Void) {
-        UnityLog("createPlayer called, isReady=\(_isUnityReady), isLoaded=\(_isUnityLoaded)")
+        unityLog("createPlayer called, isReady=\(_isUnityReady), isLoaded=\(_isUnityLoaded)")
 
         if self.unityIsInitiallized() && self._isUnityReady {
             completed(controller?.rootView)
@@ -146,7 +146,7 @@ var sharedApplication: UIApplication?
 
             self.listenAppState()
 
-            UnityLog("createPlayer completed, rootView=\(String(describing: controller?.rootView))")
+            unityLog("createPlayer completed, rootView=\(String(describing: controller?.rootView))")
             completed(controller?.rootView)
         }
 
@@ -166,7 +166,7 @@ var sharedApplication: UIApplication?
 
     @objc
     public func unityDidUnload(_ notification: Notification!) {
-        UnityLog("unityDidUnload() called")
+        unityLog("unityDidUnload() called")
 
         unregisterUnityListener()
         self.ufw = nil
@@ -217,7 +217,7 @@ var sharedApplication: UIApplication?
     }
     // Pause unity player
     func pause() {
-        UnityLog("pause() called")
+        unityLog("pause() called")
 
         self.ufw?.pause(true)
         self._isUnityPaused = true
@@ -225,7 +225,7 @@ var sharedApplication: UIApplication?
 
     // Resume unity player
     func resume() {
-        UnityLog("resume() called")
+        unityLog("resume() called")
 
         self.ufw?.pause(false)
         self._isUnityPaused = false
@@ -233,26 +233,26 @@ var sharedApplication: UIApplication?
 
     // Unoad unity player
     func unload() {
-        UnityLog("unload() called")
+        unityLog("unload() called")
 
         self.ufw?.unloadApplication()
     }
 
     func isUnityLoaded() -> Bool {
-        UnityLog("isUnityLoaded() called")
+        unityLog("isUnityLoaded() called")
 
         return _isUnityLoaded
     }
 
     func isUnityPaused() -> Bool {
-        UnityLog("isUnityPaused() called")
+        unityLog("isUnityPaused() called")
 
         return _isUnityPaused
     }
 
     // Quit unity player application
     func quit() {
-        UnityLog("quit() called")
+        unityLog("quit() called")
 
         self.ufw?.quitApplication(0)
         self._isUnityLoaded = false
