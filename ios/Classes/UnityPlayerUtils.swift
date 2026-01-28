@@ -147,8 +147,7 @@ var sharedApplication: UIApplication?
             self._isUnityLoaded = true
 
             self.listenAppState()
-
-            unityLog("createPlayer completed, rootView=\(String(describing: self.controller?.rootView))")
+            
             completed(controller?.rootView)
         }
 
