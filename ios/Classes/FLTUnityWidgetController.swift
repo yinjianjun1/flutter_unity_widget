@@ -103,13 +103,13 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
         if let unityView = unityView {
             _rootView.addSubview(unityView)
             _rootView.layoutIfNeeded()
-
-            if let vc = unityView?.parentViewController() {
-                vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
-            }
-
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
+
+        if let vc = unityView?.parentViewController() {
+            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
+
         GetUnityPlayerUtils().resume()
     }
 
