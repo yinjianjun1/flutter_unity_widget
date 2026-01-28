@@ -40,7 +40,9 @@ func UnityFrameworkLoad() -> UnityFramework? {
     var bundlePath: String? = nil
     bundlePath = Bundle.main.bundlePath
     bundlePath = (bundlePath ?? "") + "/Frameworks/UnityFramework.framework"
-    unityLog("Try load UnityFramework at path: \(bundlePath)")
+    #if DEBUG
+    print("🎮 [UnityPlayerUtils] Try load UnityFramework at path: \(bundlePath)")
+    #endif
 
     let bundle = Bundle(path: bundlePath ?? "")
     if bundle?.isLoaded == false {
@@ -96,7 +98,7 @@ var sharedApplication: UIApplication?
 
         if self.ufw?.appController() != nil {
             controller = self.ufw?.appController()
-            unityLog("UnityAppController ready: \(appController)")
+            unityLog("UnityAppController ready: \(controller)")
 
             controller?.unityMessageHandler = self.unityMessageHandlers
             controller?.unitySceneLoadedHandler = self.unitySceneLoadedHandlers
@@ -146,7 +148,7 @@ var sharedApplication: UIApplication?
 
             self.listenAppState()
 
-            unityLog("createPlayer completed, rootView=\(String(describing: controller?.rootView))")
+            unityLog("createPlayer completed, rootView=\(String(describing: self.controller?.rootView))")
             completed(controller?.rootView)
         }
 
