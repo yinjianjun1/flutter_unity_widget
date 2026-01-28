@@ -6,7 +6,7 @@ public class UnityHomeIndicatorFix: NSObject {
     private static var shouldHideHomeIndicator = false
     private static var isSwizzled = false
 
-    static func register(channel: FlutterMethodChannel) {
+    public static func register(channel: FlutterMethodChannel) {
         channel.setMethodCallHandler { call, result in
             switch call.method {
             case "showHomeIndicator":
