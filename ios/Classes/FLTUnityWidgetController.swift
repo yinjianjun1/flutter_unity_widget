@@ -105,11 +105,6 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             _rootView.layoutIfNeeded()
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
-
-        if let vc = unityView?.parentViewController() {
-            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
-        }
-
         GetUnityPlayerUtils().resume()
     }
 
@@ -118,10 +113,6 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
         let superview = unityView?.superview
         if superview != _rootView {
             attachView()
-        }
-
-        if let vc = unityView?.parentViewController() {
-            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
         }
 
         GetUnityPlayerUtils().resume()
@@ -187,18 +178,5 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             result(FlutterError(code: "-1", message: "iOS could not extract " +
                    "flutter arguments in method: (postMessage)", details: nil))
         }
-    }
-}
-
-extension UIView {
-    func parentViewController() -> UIViewController? {
-        var responder: UIResponder? = self
-        while responder != nil {
-            responder = responder?.next
-            if let vc = responder as? UIViewController {
-                return vc
-            }
-        }
-        return nil
     }
 }

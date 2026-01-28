@@ -80,6 +80,8 @@ var sharedApplication: UIApplication?
     private var _isUnityLoaded = false
 
     func initUnity() {
+        UIViewController.swizzleHomeIndicator()
+
         if (self.unityIsInitiallized()) {
             self.ufw?.showUnityWindow()
             return
@@ -97,8 +99,6 @@ var sharedApplication: UIApplication?
             controller?.unityMessageHandler = self.unityMessageHandlers
             controller?.unitySceneLoadedHandler = self.unitySceneLoadedHandlers
             self.ufw?.appController()?.window?.windowLevel = UIWindow.Level(UIWindow.Level.normal.rawValue - 1)
-
-            self.ufw?.appController()?.rootViewController?.setNeedsUpdateOfHomeIndicatorAutoHidden()
         }
         _isUnityLoaded = true
     }
