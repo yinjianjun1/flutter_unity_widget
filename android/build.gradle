@@ -23,11 +23,11 @@ rootProject.allprojects {
         // BUILD_ADD_UNITY_LIBS
 
         // FOR DEV ONLY
+//        flatDir {
+//            dirs "libs"
+//        }
         flatDir {
-            dirs "libs"
-        }
-        flatDir {
-            dirs "${rootProject.projectDir}/unityLibrary"
+            dirs "unityLibrary"
         }
     }
 }
