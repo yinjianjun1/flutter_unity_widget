@@ -26,6 +26,9 @@ rootProject.allprojects {
         flatDir {
             dirs "libs"
         }
+        flatDir {
+            dirs "${rootProject.projectDir}/unityLibrary"
+        }
     }
 }
 
