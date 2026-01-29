@@ -24,7 +24,7 @@ rootProject.allprojects {
 
         // FOR DEV ONLY
         flatDir {
-            dirs "unityLibrary"
+            dirs "${rootProject.projectDir}/unityLibrary"
         }
     }
 }
