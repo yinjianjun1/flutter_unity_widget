@@ -23,9 +23,6 @@ rootProject.allprojects {
         // BUILD_ADD_UNITY_LIBS
 
         // FOR DEV ONLY
-//        flatDir {
-//            dirs "libs"
-//        }
         flatDir {
             dirs "unityLibrary"
         }
@@ -67,7 +64,6 @@ def lifecycle_version = '2.4.1'
 def annotation_version = '1.3.0'
 
 dependencies {
-//    implementation project(':unityLibrary')
     implementation(name: 'unityLibrary', ext:'aar')
     implementation(name: 'unity-classes', ext:'jar')
 

@@ -80,8 +80,6 @@ var sharedApplication: UIApplication?
     private var _isUnityLoaded = false
 
     func initUnity() {
-        UnityHomeIndicatorFix.setupHomeIndicatorSwizzle()
-
         if (self.unityIsInitiallized()) {
             self.ufw?.showUnityWindow()
             return
