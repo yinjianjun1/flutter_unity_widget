@@ -13,7 +13,7 @@ class OverrideUnityActivity : UnityPlayerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
-        this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val intent = intent
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             handleIntent(intent)
@@ -54,31 +54,22 @@ class OverrideUnityActivity : UnityPlayerActivity() {
     }
 
     private fun handleIntent(intent: Intent) {
-        val extras = intent.extras ?: return
-
+        // Set activity not fullscreen
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            val st = Objects.requireNonNull(intent.extras)?.get("flutterActivity") as Class<*>
+            mMainActivityClass = st
             // Set activity not fullscreen
-            val st = extras.get("flutterActivity") as? Class<*>
-            if (st != null) {
-                mMainActivityClass = st
-            }
-
-            if (extras.containsKey("fullscreen")) {
-                Log.i(LOG_TAG, "fullscreen")
-
-                val fullscreen = extras.getBoolean("fullscreen")
+            if (Objects.requireNonNull(intent.extras)?.getBoolean("fullscreen") == true) {
+                val fullscreen = intent.extras?.getBoolean("fullscreen")
                 if (!fullscreen!!) {
-                    this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-                    this.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                    // this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+                    // this.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 } else {
-                    this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                    // this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 }
             }
-
             // Unloads unity
-            if (extras.containsKey("unload") && extras.getBoolean("unload")) {
-                Log.i(LOG_TAG, "unload")
-
+            if (Objects.requireNonNull(intent.extras)?.containsKey("unload") == true) {
                 mUnityPlayer?.unload()
             }
         }
