@@ -155,7 +155,6 @@ class FlutterUnityWidgetController(
             "unity#unloadPlayer" -> {
                 invalidateFrameIfNeeded()
                 UnityPlayerUtils.unload()
-                onUnityPlayerUnloaded()
                 result.success(true)
             }
             "unity#dispose" -> {
