@@ -172,14 +172,48 @@ class FlutterUnityWidgetController(
                 }
                 result.success(true)
             }
+            "unity#setFullscreen" -> {
+                val fullscreen: Boolean = methodCall.argument<Boolean>("fullscreen") ?: false
+                setFullscreen(fullscreen)
+                result.success(null)
+            }
+            "unity#setHideStatus" -> {
+                val hideStatus: Boolean = methodCall.argument<Boolean>("hideStatus") ?: false
+                setHideStatus(hideStatus)
+                result.success(null)
+            }
             else -> result.notImplemented()
         }
     }
     //#endregion
 
     //#region Options Override
+
+    fun setFullscreen(fullscreen: Boolean) {
+        val activity = getActivity(null) ?: return
+        activity.runOnUiThread {
+            if (fullscreen) {
+                activity.window.decorView.systemUiVisibility = (
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        )
+            } else {
+                activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            }
+        }
+    }
+
     override fun setFullscreenEnabled(fullscreenEnabled: Boolean) {
         options.fullscreenEnabled = fullscreenEnabled
+    }
+
+    fun setHideStatus(hideStatus: Boolean) {
+        val activity = getActivity(null) ?: return
+        activity.runOnUiThread {
+            if (hideStatus) activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            else activity.window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
     }
 
     override fun setHideStatusBar(hideStatusBar: Boolean) {

@@ -207,6 +207,28 @@ class MobileUnityWidgetController extends UnityWidgetController {
     return null;
   }
 
+  @override
+  Future<void>? setFullscreen({required bool fullscreen}) {
+    if (!_unityWidgetState.widget.enablePlaceholder) {
+      return UnityWidgetPlatform.instance.setFullscreen(
+        unityId: unityId,
+        fullscreen: fullscreen,
+      );
+    }
+    return null;
+  }
+
+  @override
+  Future<void>? setHideStatus({required bool hideStatus}) {
+    if (!_unityWidgetState.widget.enablePlaceholder) {
+      return UnityWidgetPlatform.instance.setHideStatus(
+        unityId: unityId,
+        hideStatus: hideStatus,
+      );
+    }
+    return null;
+  }
+
   /// cancel the subscriptions when dispose called
   void _cancelSubscriptions() {
     _onUnityMessageSub?.cancel();
