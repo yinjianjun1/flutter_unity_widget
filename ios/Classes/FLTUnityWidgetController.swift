@@ -9,10 +9,10 @@ import Foundation
 import UnityFramework
 
 public class UnityFullscreenState {
-    static let shared = UnityFullscreenState()
+    public static let shared = UnityFullscreenState()
     private init() {}
 
-    var isFullscreen: Bool = false
+    public var isFullscreen: Bool = false
 }
 
 // Defines unity controllable from Flutter.
