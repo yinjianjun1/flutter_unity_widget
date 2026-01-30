@@ -159,7 +159,7 @@ class FlutterUnityWidgetController(
             }
             "unity#dispose" -> {
                 destroyUnityViewIfNecessary()
-                if ()
+                // if ()
                     dispose()
                 result.success(null)
             }
