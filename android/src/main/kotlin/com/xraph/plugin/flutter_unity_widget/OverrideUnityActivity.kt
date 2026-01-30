@@ -64,6 +64,8 @@ class OverrideUnityActivity : UnityPlayerActivity() {
             }
 
             if (extras.containsKey("fullscreen")) {
+                Log.i(LOG_TAG, "fullscreen")
+
                 val fullscreen = extras.getBoolean("fullscreen")
                 if (!fullscreen!!) {
                     this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
@@ -75,6 +77,8 @@ class OverrideUnityActivity : UnityPlayerActivity() {
 
             // Unloads unity
             if (extras.containsKey("unload") && extras.getBoolean("unload")) {
+                Log.i(LOG_TAG, "unload")
+
                 mUnityPlayer?.unload()
             }
         }
