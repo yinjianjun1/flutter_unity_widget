@@ -123,16 +123,6 @@ class UnityPlayerUtils {
                 if (unityPlayer != null) {
                     unityPlayer!!.unload()
                     unityLoaded = false
-
-                    for (listener in mUnityEventListeners) {
-                        try {
-                            android.os.Handler(android.os.Looper.getMainLooper()).post {
-                                listener.onUnityPlayerUnloaded()
-                            }
-                        } catch (e: Exception) {
-                            Log.e(LOG_TAG, e.message ?: "")
-                        }
-                    }
                 }
             } catch (e: Exception) {
                 Log.e(LOG_TAG, e.toString())
