@@ -95,10 +95,6 @@ abstract class UnityWidgetPlatform extends PlatformInterface {
     throw UnimplementedError('setFullscreen() has not been implemented.');
   }
 
-  Future<void> setHideStatus({required int unityId, required bool hideStatus}) {
-    throw UnimplementedError('setHideStatus() has not been implemented.');
-  }
-
   Stream<UnityMessageEvent> onUnityMessage({required int unityId}) {
     throw UnimplementedError('onUnityMessage() has not been implemented.');
   }

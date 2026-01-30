@@ -102,11 +102,6 @@ abstract class UnityWidgetController {
     throw UnimplementedError('setFullscreen() has not been implemented.');
   }
 
-  /// Set to true to force unity to fullscreen
-  Future<void>? setHideStatus({required bool hideStatus}) {
-    throw UnimplementedError('setHideStatus() has not been implemented.');
-  }
-
   void dispose() {
     throw UnimplementedError('dispose() has not been implemented.');
   }

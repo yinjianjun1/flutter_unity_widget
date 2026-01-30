@@ -207,23 +207,13 @@ class MobileUnityWidgetController extends UnityWidgetController {
     return null;
   }
 
+  /// Set to true to force unity to fullscreen
   @override
   Future<void>? setFullscreen({required bool fullscreen}) {
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.setFullscreen(
         unityId: unityId,
         fullscreen: fullscreen,
-      );
-    }
-    return null;
-  }
-
-  @override
-  Future<void>? setHideStatus({required bool hideStatus}) {
-    if (!_unityWidgetState.widget.enablePlaceholder) {
-      return UnityWidgetPlatform.instance.setHideStatus(
-        unityId: unityId,
-        hideStatus: hideStatus,
       );
     }
     return null;

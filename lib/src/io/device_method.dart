@@ -133,13 +133,6 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
   }
 
   @override
-  Future<bool?> setHideStatus(
-      {required int unityId, required bool hideStatus}) async {
-    return await channel(unityId)
-        .invokeMethod('unity#setHideStatus', {'hideStatus': hideStatus});
-  }
-
-  @override
   Stream<UnityMessageEvent> onUnityMessage({required int unityId}) {
     return _events(unityId).whereType<UnityMessageEvent>();
   }
