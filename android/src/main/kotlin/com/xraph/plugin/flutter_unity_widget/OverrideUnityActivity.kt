@@ -13,7 +13,7 @@ class OverrideUnityActivity : UnityPlayerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
-        // this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         val intent = intent
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             handleIntent(intent)
@@ -62,10 +62,10 @@ class OverrideUnityActivity : UnityPlayerActivity() {
             if (Objects.requireNonNull(intent.extras)?.getBoolean("fullscreen") == true) {
                 val fullscreen = intent.extras?.getBoolean("fullscreen")
                 if (!fullscreen!!) {
-                    // this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-                    // this.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                    this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+                    this.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 } else {
-                    // this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                    this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 }
             }
             // Unloads unity
