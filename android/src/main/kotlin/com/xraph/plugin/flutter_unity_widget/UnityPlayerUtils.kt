@@ -123,6 +123,16 @@ class UnityPlayerUtils {
                 if (unityPlayer != null) {
                     unityPlayer!!.unload()
                     unityLoaded = false
+
+                    Handler(Looper.getMainLooper()).post {
+                        for (listener in mUnityEventListeners) {
+                            try {
+                                listener.onUnityPlayerUnloaded()
+                            } catch (e: Exception) {
+                                e.message?.let { Log.e(LOG_TAG, it) }
+                            }
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(LOG_TAG, e.toString())
