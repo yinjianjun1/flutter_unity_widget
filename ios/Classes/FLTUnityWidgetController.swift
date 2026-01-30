@@ -8,7 +8,7 @@
 import Foundation
 import UnityFramework
 
-final class UnityFullscreenState {
+public class UnityFullscreenState {
     static let shared = UnityFullscreenState()
     private init() {}
 
