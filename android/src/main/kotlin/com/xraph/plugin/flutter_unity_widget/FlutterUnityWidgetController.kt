@@ -154,13 +154,7 @@ class FlutterUnityWidgetController(
             }
             "unity#unloadPlayer" -> {
                 invalidateFrameIfNeeded()
-                if (UnityPlayerUtils.unityPlayer != null) {
-                    Handler(Looper.getMainLooper()).post {
-                        methodChannel.invokeMethod("events#onUnityUnloaded", true)
-                    }
-                } else {
-                    UnityPlayerUtils.unload()
-                }
+                UnityPlayerUtils.unload()
                 result.success(true)
             }
             "unity#dispose" -> {
