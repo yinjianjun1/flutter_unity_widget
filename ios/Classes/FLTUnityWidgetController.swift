@@ -8,6 +8,13 @@
 import Foundation
 import UnityFramework
 
+final class UnityFullscreenState {
+    static let shared = UnityFullscreenState()
+    private init() {}
+
+    var isFullscreen: Bool = false
+}
+
 // Defines unity controllable from Flutter.
 public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPlatformView {
     private var _rootView: FLTUnityView
@@ -70,6 +77,21 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 GetUnityPlayerUtils().quit()
                 result(nil)
             } else if call.method == "unity#waitForUnity" {
+                result(nil)
+            } else if call.method == "unity#setFullscreen" {
+                if let fullscreen = call.arguments as? Bool {
+                    UnityFullscreenState.shared.isFullscreen = fullscreen
+
+                    DispatchQueue.main.async {
+                        if let windowScene = UIApplication.shared.connectedScenes
+                            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                           let window = windowScene.windows.first(where: { $0.isKeyWindow }),
+                           let rootVC = window.rootViewController {
+
+                            rootVC.setNeedsStatusBarAppearanceUpdate()
+                        }
+                    }
+                }
                 result(nil)
             } else {
                 result(FlutterMethodNotImplemented)
