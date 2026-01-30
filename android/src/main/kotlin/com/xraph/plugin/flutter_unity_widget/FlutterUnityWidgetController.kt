@@ -154,7 +154,13 @@ class FlutterUnityWidgetController(
             }
             "unity#unloadPlayer" -> {
                 invalidateFrameIfNeeded()
-                UnityPlayerUtils.unload()
+                if (UnityPlayerUtils.unityPlayer != null) {
+                    UnityPlayerUtils.unload()
+                } else {
+                    Handler(Looper.getMainLooper()).post {
+                        methodChannel.invokeMethod("events#onUnityUnloaded", true)
+                    }
+                }
                 result.success(true)
             }
             "unity#dispose" -> {
@@ -242,11 +248,6 @@ class FlutterUnityWidgetController(
         UnityPlayerUtils.unityLoaded = false
         Handler(Looper.getMainLooper()).post {
             methodChannel.invokeMethod("events#onUnityUnloaded", true)
-        }
-
-        if (methodChannelResult != null) {
-            methodChannelResult!!.success(true)
-            methodChannelResult = null
         }
     }
 
