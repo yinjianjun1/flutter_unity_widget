@@ -191,9 +191,12 @@ class FlutterUnityWidgetController(
 
         val activity = getActivity(null) ?: return
         activity.runOnUiThread {
+            val window = activity.window
+            val decorView = window.decorView
+
             if (fullscreen) {
-                activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                window.addFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     window.setDecorFitsSystemWindows(false)
@@ -227,9 +230,9 @@ class FlutterUnityWidgetController(
                     decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
                 }
 
-                activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-                activity.window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                activity.window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+                window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             }
         }
     }
