@@ -54,13 +54,17 @@ class OverrideUnityActivity : UnityPlayerActivity() {
     }
 
     private fun handleIntent(intent: Intent) {
-        // Set activity not fullscreen
+        val extras = intent.extras ?: return
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            val st = Objects.requireNonNull(intent.extras)?.get("flutterActivity") as Class<*>
-            mMainActivityClass = st
             // Set activity not fullscreen
-            if (Objects.requireNonNull(intent.extras)?.getBoolean("fullscreen") == true) {
-                val fullscreen = intent.extras?.getBoolean("fullscreen")
+            val st = extras.get("flutterActivity") as? Class<*>
+            if (st != null) {
+                mMainActivityClass = st
+            }
+
+            if (extras.containsKey("fullscreen")) {
+                val fullscreen = extras.getBoolean("fullscreen")
                 if (!fullscreen!!) {
                     this.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
                     this.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -68,8 +72,9 @@ class OverrideUnityActivity : UnityPlayerActivity() {
                     this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 }
             }
+
             // Unloads unity
-            if (Objects.requireNonNull(intent.extras)?.containsKey("unload") == true) {
+            if (extras.containsKey("unload") && extras.getBoolean("unload")) {
                 mUnityPlayer?.unload()
             }
         }
