@@ -158,9 +158,9 @@ class FlutterUnityWidgetController(
                 result.success(true)
             }
             "unity#dispose" -> {
-                destroyUnityViewIfNecessary()
+                // destroyUnityViewIfNecessary()
                 // if ()
-                    dispose()
+                // dispose()
                 result.success(null)
             }
             "unity#silentQuitPlayer" -> {
