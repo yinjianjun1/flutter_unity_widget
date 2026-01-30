@@ -243,6 +243,11 @@ class FlutterUnityWidgetController(
         Handler(Looper.getMainLooper()).post {
             methodChannel.invokeMethod("events#onUnityUnloaded", true)
         }
+
+        if (methodChannelResult != null) {
+            methodChannelResult!!.success(true)
+            methodChannelResult = null
+        }
     }
 
     override fun onUnityPlayerQuitted() {
