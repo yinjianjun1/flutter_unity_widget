@@ -19,6 +19,29 @@ public class UnityFullscreenState {
 
 // Custom Unity Root VC
 final class UnityRootViewController: UIViewController {
+    private let unityVC: UIViewController
+
+    init(unityViewController: UIViewController) {
+        self.unityVC = unityViewController
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addChild(unityVC)
+        view.addSubview(unityVC.view)
+
+        unityVC.view.frame = view.bounds
+        unityVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        unityVC.didMove(toParent: self)
+    }
+
     override var prefersHomeIndicatorAutoHidden: Bool {
         return UnityFullscreenState.shared.isFullscreen
     }
@@ -132,18 +155,17 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             let oldVC = appController.rootViewController
         else { return }
 
-        if let vc = oldVC as? UnityRootViewController {
-            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        if let wrapper = window.rootViewController as? UnityRootViewController {
+            wrapper.setNeedsUpdateOfHomeIndicatorAutoHidden()
             return
         }
 
-        let newVC = UnityRootViewController()
-        newVC.view = oldVC.view
+        let wrapperVC = UnityRootViewController(unityViewController: unityVC)
 
-        window.rootViewController = newVC
+        window.rootViewController = wrapperVC
         window.makeKeyAndVisible()
 
-        newVC.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        wrapperVC.setNeedsUpdateOfHomeIndicatorAutoHidden()
     }
 
     func attachView() {
