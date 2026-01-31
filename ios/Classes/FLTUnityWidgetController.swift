@@ -152,8 +152,10 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
         guard
             let appController = GetUnityPlayerUtils().ufw?.appController(),
             let window = appController.window,
-            let oldVC = appController.rootViewController
-        else { return }
+            let unityVC = appController.rootViewController
+        else {
+            return
+        }
 
         if let wrapper = window.rootViewController as? UnityRootViewController {
             wrapper.setNeedsUpdateOfHomeIndicatorAutoHidden()
