@@ -7,49 +7,6 @@
 
 import Foundation
 import UnityFramework
-import UIKit
-
-// Fullscreen State
-public class UnityFullscreenState {
-    static let shared = UnityFullscreenState()
-    private init() {}
-
-    var isFullscreen: Bool = false
-}
-
-// Custom Unity Root VC
-final class UnityRootViewController: UIViewController {
-    private let unityVC: UIViewController
-
-    init(unityViewController: UIViewController) {
-        self.unityVC = unityViewController
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        addChild(unityVC)
-        view.addSubview(unityVC.view)
-
-        unityVC.view.frame = view.bounds
-        unityVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        unityVC.didMove(toParent: self)
-    }
-
-    override var prefersHomeIndicatorAutoHidden: Bool {
-        return UnityFullscreenState.shared.isFullscreen
-    }
-
-    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return UnityFullscreenState.shared.isFullscreen ? .all : []
-    }
-}
 
 // Defines unity controllable from Flutter.
 public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPlatformView {
@@ -116,10 +73,7 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 result(nil)
             } else if call.method == "unity#setFullscreen" {
                 if let fullscreen = call.arguments as? Bool {
-                    DispatchQueue.main.async {
-                        UnityFullscreenState.shared.isFullscreen = fullscreen
-                        self.applyUnityRootViewController()
-                    }
+
                 }
                 result(nil)
             } else {
@@ -136,38 +90,10 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
         return _rootView;
     }
 
-    private func setHomeIndicator() {
-        if let vc = GetUnityPlayerUtils().ufw?.appController()?.rootViewController {
-            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
-        }
-    }
-
     private func startUnityIfNeeded() {
         GetUnityPlayerUtils().createPlayer(completed: { [self] (view: UIView?) in
 
         })
-    }
-
-    private func applyUnityRootViewController() {
-        guard
-            let appController = GetUnityPlayerUtils().ufw?.appController(),
-            let window = appController.window,
-            let unityVC = appController.rootViewController
-        else {
-            return
-        }
-
-        if let wrapper = window.rootViewController as? UnityRootViewController {
-            wrapper.setNeedsUpdateOfHomeIndicatorAutoHidden()
-            return
-        }
-
-        let wrapperVC = UnityRootViewController(unityViewController: unityVC)
-
-        window.rootViewController = wrapperVC
-        window.makeKeyAndVisible()
-
-        wrapperVC.setNeedsUpdateOfHomeIndicatorAutoHidden()
     }
 
     func attachView() {
@@ -185,7 +111,6 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
         GetUnityPlayerUtils().resume()
-        applyUnityRootViewController()
     }
 
     func reattachView() {
