@@ -95,7 +95,7 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 if let fullscreen = call.arguments as? Bool {
                     DispatchQueue.main.async {
                         UnityFullscreenState.shared.isFullscreen = fullscreen
-                        applyUnityRootViewController()
+                        self.applyUnityRootViewController()
                     }
                 }
                 result(nil)
