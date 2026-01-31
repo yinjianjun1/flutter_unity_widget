@@ -7,22 +7,25 @@
 
 import Foundation
 import UnityFramework
+import UIKit
 
-extension UIViewController {
-    @objc open override var prefersHomeIndicatorAutoHidden: Bool {
-        return UnityFullscreenState.shared.isFullscreen
-    }
-
-    @objc open override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return UnityFullscreenState.shared.isFullscreen ? .all : []
-    }
-}
-
+// Fullscreen State
 public class UnityFullscreenState {
     static let shared = UnityFullscreenState()
     private init() {}
 
     var isFullscreen: Bool = false
+}
+
+// Custom Unity Root VC
+final class UnityRootViewController: UIViewController {
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return UnityFullscreenState.shared.isFullscreen
+    }
+
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return UnityFullscreenState.shared.isFullscreen ? .all : []
+    }
 }
 
 // Defines unity controllable from Flutter.
@@ -90,8 +93,10 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 result(nil)
             } else if call.method == "unity#setFullscreen" {
                 if let fullscreen = call.arguments as? Bool {
-                    UnityFullscreenState.shared.isFullscreen = fullscreen
-                    setHomeIndicator()
+                    DispatchQueue.main.async {
+                        UnityFullscreenState.shared.isFullscreen = fullscreen
+                        applyUnityRootViewController()
+                    }
                 }
                 result(nil)
             } else {
@@ -120,6 +125,27 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
         })
     }
 
+    private func applyUnityRootViewController() {
+        guard
+            let appController = GetUnityPlayerUtils().ufw?.appController(),
+            let window = appController.window,
+            let oldVC = appController.rootViewController
+        else { return }
+
+        if let vc = oldVC as? UnityRootViewController {
+            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
+            return
+        }
+
+        let newVC = UnityRootViewController()
+        newVC.view = oldVC.view
+
+        window.rootViewController = newVC
+        window.makeKeyAndVisible()
+
+        newVC.setNeedsUpdateOfHomeIndicatorAutoHidden()
+    }
+
     func attachView() {
         startUnityIfNeeded()
 
@@ -135,8 +161,7 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
         GetUnityPlayerUtils().resume()
-
-        setHomeIndicator()
+        applyUnityRootViewController()
     }
 
     func reattachView() {
