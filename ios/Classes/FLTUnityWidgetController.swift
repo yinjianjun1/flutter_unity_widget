@@ -8,11 +8,21 @@
 import Foundation
 import UnityFramework
 
+extension UIViewController {
+    @objc open override var prefersHomeIndicatorAutoHidden: Bool {
+        return UnityFullscreenState.shared.isFullscreen
+    }
+
+    @objc open override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        return UnityFullscreenState.shared.isFullscreen ? .all : []
+    }
+}
+
 public class UnityFullscreenState {
-    public static let shared = UnityFullscreenState()
+    static let shared = UnityFullscreenState()
     private init() {}
 
-    public var isFullscreen: Bool = false
+    var isFullscreen: Bool = false
 }
 
 // Defines unity controllable from Flutter.
@@ -81,16 +91,7 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             } else if call.method == "unity#setFullscreen" {
                 if let fullscreen = call.arguments as? Bool {
                     UnityFullscreenState.shared.isFullscreen = fullscreen
-
-                    DispatchQueue.main.async {
-                        if let windowScene = UIApplication.shared.connectedScenes
-                            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-                           let window = windowScene.windows.first(where: { $0.isKeyWindow }),
-                           let rootVC = window.rootViewController {
-
-                            rootVC.setNeedsStatusBarAppearanceUpdate()
-                        }
-                    }
+                    setHomeIndicator()
                 }
                 result(nil)
             } else {
@@ -105,6 +106,12 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
 
     public func view() -> UIView {
         return _rootView;
+    }
+
+    private func setHomeIndicator() {
+        if let vc = GetUnityPlayerUtils().ufw?.appController()?.rootViewController {
+            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
     }
 
     private func startUnityIfNeeded() {
@@ -128,6 +135,8 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
         GetUnityPlayerUtils().resume()
+
+        setHomeIndicator()
     }
 
     func reattachView() {
