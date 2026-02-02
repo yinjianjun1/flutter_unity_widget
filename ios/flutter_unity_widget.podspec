@@ -21,18 +21,17 @@ A new Flutter plugin.
   s.vendored_frameworks = 'UnityFramework.xcframework'
 
   # Flutter.framework does not contain a i386 slice.
-  s.pod_target_xcconfig = {
-    'DEFINES_MODULE' => 'YES',
-    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
-    'OTHER_LDFLAGS' => '$(inherited) -ObjC'
-  }
+#   s.pod_target_xcconfig = {
+#     'DEFINES_MODULE' => 'YES',
+#     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+#     'OTHER_LDFLAGS' => '$(inherited) -ObjC'
+#   }
   s.swift_version = '5.0'
 
-  s.xcconfig = {
-     'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" "${PODS_ROOT}/../.symlinks/flutter/ios-release" "${PODS_CONFIGURATION_BUILD_DIR}"',
-
-  }
-  #'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}'
+#   s.xcconfig = {
+#      'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" "${PODS_ROOT}/../.symlinks/flutter/ios-release" "${PODS_CONFIGURATION_BUILD_DIR}"',
+#      'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}'
+#   }
   
   s.resource_bundles = {'flutter_unity_widget_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 end
