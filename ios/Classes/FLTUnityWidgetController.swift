@@ -151,21 +151,21 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
 
         channel?.setMethodCallHandler(nil)
         removeViewIfNeeded()
-        
+
         _disposed = true
     }
-    
+
     /// Handles messages from unity in the current view
     func handleMessage(message: String) {
         self.channel?.invokeMethod("events#onUnityMessage", arguments: message)
     }
-    
-    
+
+
     /// Handles scene changed event from unity in the current view
     func handleSceneChangeEvent(info: Dictionary<String, Any>) {
         self.channel?.invokeMethod("events#onUnitySceneLoaded", arguments: info)
     }
-    
+
     /// Post messages to unity from flutter
     func postMessage(call: FlutterMethodCall, result: FlutterResult) {
         guard let args = call.arguments else {
