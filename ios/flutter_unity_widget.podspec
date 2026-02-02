@@ -17,7 +17,6 @@ A new Flutter plugin.
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'
-  s.vendored_frameworks = 'UnityLibrary/UnityFramework.xcframework'
   # s.frameworks = 'UnityFramework'
 
   # Flutter.framework does not contain a i386 slice.
