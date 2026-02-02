@@ -8,22 +8,6 @@
 import Foundation
 import UnityFramework
 
-public class UnityFullscreenState {
-    static let shared = UnityFullscreenState()
-    private init() {}
-    var isFullscreen: Bool = false
-}
-
-extension UIViewController {
-    @objc open override var prefersHomeIndicatorAutoHidden: Bool {
-        return UnityFullscreenState.shared.isFullscreen
-    }
-
-    @objc open override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-        return UnityFullscreenState.shared.isFullscreen ? .all : []
-    }
-}
-
 // Defines unity controllable from Flutter.
 public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPlatformView {
     private var _rootView: FLTUnityView
@@ -89,19 +73,12 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 result(nil)
             } else if call.method == "unity#setFullscreen" {
                 if let fullscreen = call.arguments as? Bool {
-                    setFullscreen(fullscreen: fullscreen)
+
                 }
                 result(nil)
             } else {
                 result(FlutterMethodNotImplemented)
             }
-        }
-    }
-
-    private func setFullscreen(fullscreen: Bool) {
-        UnityFullscreenState.shared.isFullscreen = fullscreen
-        if let vc = GetUnityPlayerUtils().ufw?.appController()?.rootViewController {
-            vc.setNeedsUpdateOfHomeIndicatorAutoHidden()
         }
     }
 
@@ -134,7 +111,6 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
             self.channel?.invokeMethod("events#onViewReattached", arguments: "")
         }
         GetUnityPlayerUtils().resume()
-        setFullscreen(fullscreen: UnityFullscreenState.shared.isFullscreen)
     }
 
     func reattachView() {

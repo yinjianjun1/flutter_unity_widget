@@ -39,7 +39,7 @@ public func InitUnityIntegrationWithOptions(
 func UnityFrameworkLoad() -> UnityFramework? {
     var bundlePath: String? = nil
     bundlePath = Bundle.main.bundlePath
-    bundlePath = (bundlePath ?? "") + "/Frameworks/UnityFramework.framework"
+    bundlePath = (bundlePath ?? "") + "/Frameworks/UnityFramework.xcframework"
 
     let bundle = Bundle(path: bundlePath ?? "")
     if bundle?.isLoaded == false {
