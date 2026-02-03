@@ -237,10 +237,6 @@ var sharedApplication: UIApplication?
         self._isUnityLoaded = false
     }
 
-    func setFullscreen(fullscreen: Bool) {
-
-    }
-
     // Post message to unity
     func postMessageToUnity(gameObject: String?, unityMethodName: String?, unityMessage: String?) {
         if self.unityIsInitiallized() {

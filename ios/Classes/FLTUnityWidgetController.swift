@@ -73,7 +73,6 @@ public class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPla
                 result(nil)
             } else if call.method == "unity#setFullscreen" {
                 if let fullscreen = call.arguments as? Bool {
-
                 }
                 result(nil)
             } else {
