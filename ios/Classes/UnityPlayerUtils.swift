@@ -238,12 +238,7 @@ var sharedApplication: UIApplication?
     }
 
     func setFullscreen(fullscreen: Bool) {
-        guard let appController = self.ufw?.appController() else { return }
-        appController.homeIndicatorHidden = fullscreen
 
-        if #available(iOS 11.0, *) {
-            appController.setNeedsUpdateOfHomeIndicatorAutoHidden()
-        }
     }
 
     // Post message to unity
