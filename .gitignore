@@ -1,18 +1,16 @@
 # Miscellaneous
 *.class
-*.lock
 *.log
 *.pyc
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
-
-
-# scripts/
-# files/
+.swiftpm/
+migrate_working_dir/
 
 # IntelliJ related
 *.iml
@@ -20,70 +18,106 @@
 *.iws
 .idea/
 
-node_modules/
-./package.json
-android/.idea/
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
+**/ios/Flutter/.last_build_id
 .dart_tool/
-.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ---- Flutter/Dart ----
+.dart_tool/
 .packages
 .pub-cache/
 .pub/
 build/
+flutter_*.png
+.dart_tools/
+coverage/
 
-android/UnityLibrary/
+# ---- IDE 文件 ----
+# VSCode
+.vscode/
+# IntelliJ / Android Studio
+*.iml
+.idea/
+# Xcode
+xcuserdata/
+DerivedData/
 
-#example/
-example/unity/DemoApp/Builds/
-example/unity/DemoApp/Library/
-example/unity/DemoApp/Logs/
-example/unity/DemoApp/Temp/
+# ---- OS 系统文件 ----
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
 
-# Android related
-**/android/**/gradle-wrapper.jar
-**/android/.gradle
-**/android/captures/
-**/android/gradlew
-**/android/gradlew.bat
-**/android/local.properties
-**/android/**/GeneratedPluginRegistrant.java
+# ---- Android ----
+android/local.properties
+android/.gradle/
+android/build/
+android/app/build/
+**/gradle-wrapper.jar
 
-# iOS/XCode related
-**/ios/**/*.mode1v3
-**/ios/**/*.mode2v3
-**/ios/**/*.moved-aside
-**/ios/**/*.pbxuser
-**/ios/**/*.perspectivev3
-**/ios/**/*sync/
-**/ios/**/.sconsign.dblite
-**/ios/**/.tags*
-**/ios/**/.vagrant/
-**/ios/**/DerivedData/
-**/ios/**/Icon?
-**/ios/**/Pods/
-**/ios/**/.symlinks/
-**/ios/**/profile
-**/ios/**/xcuserdata
-**/ios/.generated/
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/app.flx
-**/ios/Flutter/app.zip
-**/ios/Flutter/flutter_assets/
-**/ios/ServiceDefinitions.json
-**/ios/Runner/GeneratedPluginRegistrant.*
+# NDK / Cache
+android/.cxx/
 
-# Exceptions to above rules.
-!**/ios/**/default.mode1v3
-!**/ios/**/default.mode2v3
-!**/ios/**/default.pbxuser
-!**/ios/**/default.perspectivev3
-!/unitypackages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+# ---- iOS ----
+ios/Pods/
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/.symlinks/
+ios/build/
+ios/Flutter/ephemeral/
 
-example/unity/DemoApp/test
-example/ios/UnityLibrary
-example/android/unityLibrary
-example/web/unityLibrary
+# ---- macOS ----
+macos/Flutter/ephemeral/
+macos/Pods/
+macos/build/
+
+# ---- Linux ----
+linux/flutter/ephemeral/
+linux/build/
+
+# ---- Windows ----
+windows/flutter/ephemeral/
+windows/build/
+
+# ---- Web ----
+web/.dart_tool/
+web/build/
+
+# ---- Logs ----
+*.log
+*.lock
+
+# ---- Unity ----
+unity/flutter/
+
+# ---- Opencode ----
+.opencode/
+.omo/
+.sisyphus/
+.playwright-mcp/
+.codegraph/
+temp/
