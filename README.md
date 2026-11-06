@@ -1,4 +1,7 @@
 # flutter_unity_widget
+
+[🇺🇸 English](README.md) | [🇨🇳 简体中文](README.zh.md)
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 
 [![version][version-badge]][package]
@@ -18,11 +21,98 @@ Flutter unity 3D widget for embedding unity in flutter. Now you can make awesome
 ### Notes
 - Use Windows or Mac to export and build your project.  
   Users on Ubuntu have reported a lot of errors in the Unity export.
-- Emulator support is limited and requires special setup. Please use a physical device for Android and iOS.
+- Emulator support is limited and requires special setup. Android and iOS physical devices are still recommended; for a verified arm64 simulator/emulator setup in prebuilt-artifact mode, see [`example/README.md`](example/README.md).
 - Supports Unity 2019.4.3 up to 2022.3.x, we recommend the latest 2022.3 LTS.  
   Check [this github issue](https://github.com/juicycleff/flutter-unity-view-widget/issues/967) for support of Unity 6.  
 - Use only OpenGLES3 as Graphics API on Android for AR compatibility.  
 - Windows isn't supported because of the lack of [Flutter PlatformView support](https://github.com/flutter/flutter/issues/31713).  
+
+## Prebuilt-artifact integration mode
+
+This fork integrates the Unity export as **prebuilt binaries** instead of source projects, so the Flutter development machine needs no Unity installation and no Unity export sources — only the compiled artifacts.
+
+| | Upstream | This fork |
+|---|---|---|
+| Android | Unity export sources live inside the Flutter project, referenced as `implementation project(':unityLibrary')` | Export compiled once into `unityLibrary.aar` + `unity-classes.jar`, consumed via `flatDir` |
+| iOS | Unity export Xcode project merged into the Flutter project | Export archived once into `UnityFramework.framework`, linked via framework search paths |
+| Flutter dev machine | Needs the Unity export project on disk | Needs only the prebuilt artifacts |
+
+### Build scripts
+
+The example app under [`example/`](example/) ships battle-tested automation for both flows:
+
+- [`example/build_unity.sh`](example/build_unity.sh) — one-shot entry driving the whole pipeline for all three targets (`android`, `ios device`, `ios simulator`): Unity batch export into `unity/flutter/<platform>/`, platform build, artifact deploy back into `android/unityLibrary/` and `ios/UnityLibrary/`.
+- [`example/android/build_unity.sh`](example/android/build_unity.sh) — Android stage: idempotently injects the `maven-publish` publication and `flatDir` repository into the exported project's `build.gradle`, runs `publishReleasePublicationToAndroidBuildRepo`, verifies the AAR contains `arm64-v8a` native libraries, then deploys `unityLibrary.aar` + `unity-classes.jar`.
+- [`example/ios/build_unity.sh`](example/ios/build_unity.sh) — iOS stage: archives the `UnityFramework` scheme (`device` / `simulator`, auto-detected), verifies the framework integrity (arm64 slice, `_OBJC_CLASS_$_UnityAppController`, `_il2cpp_init` exports), deploys both the platform-named and the generic `UnityFramework.framework`, and thins/re-signs `libiPhone-lib.dylib` for simulator builds. Also fixes the Unity-generated `libGameAssembly.a` build-input issue for simulator archives.
+
+The manual steps below describe what these scripts do; you only need them if you prefer doing it by hand.
+
+### Android: unityLibrary.aar
+
+1. Export the Android library from Unity (`Flutter > Export Android (Release)`). The export produces a standalone `unityLibrary` Gradle project.
+2. Compile it into an AAR. In the exported project's `build.gradle`, inject (idempotently) `apply plugin: 'maven-publish'` with a publication `com.unity3d.player:unityLibrary` publishing to a local Maven repo, plus a `flatDir { dirs 'libs' }` repository, then:
+
+   ```bash
+   ./gradlew :unityLibrary:publishReleasePublicationToAndroidBuildRepo
+   ```
+
+3. Copy the published `unityLibrary-unspecified.aar` to `<flutter>/android/unityLibrary/unityLibrary.aar`, together with the exported `libs/unity-classes.jar`.
+4. Verify the AAR actually contains native libraries: `unzip -l unityLibrary.aar | grep arm64-v8a`. Modern devices are arm64-only — a missing ABI builds fine but crashes on every device.
+
+The plugin's `android/build.gradle` already consumes the artifact this way:
+
+```gradle
+flatDir { dirs "${rootProject.projectDir}/unityLibrary" }   // repository
+implementation(name: 'unityLibrary', ext: 'aar')
+implementation(name: 'unity-classes', ext: 'jar')
+```
+
+On the app side (verified in [`example/`](example/)):
+
+- Do **not** `include ':unityLibrary'` in `settings.gradle` — the deployed directory contains only the AAR/JAR, no `build.gradle`.
+- Do **not** re-declare the AAR/JAR dependencies in `app/build.gradle` — the plugin already declares both, and duplicates fail with `Duplicate class`. The app only needs `implementation project(':flutter_unity_widget')`.
+- Resolve the AAR directory with a root-level `flatDir { dirs "${rootProject.projectDir}/unityLibrary" }` repository.
+- Align the Kotlin Gradle plugin version with the plugin's Kotlin stdlib (2.1.20) — an older compiler fails on newer stdlib metadata.
+- Set the app `compileSdk` to 36.
+
+### iOS: UnityFramework.framework
+
+1. Export iOS from Unity (`Flutter > Export IOS (Release)`). The export produces the `Unity-iPhone.xcodeproj` project.
+2. Archive the `UnityFramework` scheme:
+
+   ```bash
+   xcodebuild archive -project Unity-iPhone.xcodeproj -scheme UnityFramework \
+       -sdk iphoneos -arch arm64 -configuration Release \
+       -archivePath build/UnityFramework.xcarchive \
+       SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES CODE_SIGNING_ALLOWED=NO
+   ```
+
+3. Copy `build/UnityFramework.xcarchive/Products/Library/Frameworks/UnityFramework.framework` to `<flutter>/ios/UnityLibrary/UnityFramework.framework`.
+4. Verify the framework **before** deploying — a stripped framework still links but crashes or fails at link time:
+   - `lipo -archs UnityFramework` contains `arm64`
+   - `nm -g UnityFramework` exports `_OBJC_CLASS_$_UnityAppController` (ObjC classes must be globally visible, otherwise Flutter linking fails with `Undefined symbol`)
+   - `nm -g UnityFramework` exports `_il2cpp_init` (the Unity native trampoline dlsym-loads il2cpp; missing → runtime crash "Could not load symbol il2cpp_init")
+
+The plugin's `ios/flutter_unity_widget.podspec` already consumes the framework this way:
+
+```ruby
+'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" ...',
+'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}'
+```
+
+On the app side (verified in [`example/`](example/)):
+
+- Link `UnityLibrary/UnityFramework.framework` by path, not `BUILT_PRODUCTS_DIR`, so the Embed Frameworks phase copies the prebuilt framework.
+- Set `IPHONEOS_DEPLOYMENT_TARGET = 15.0` or higher on the Runner target and all pods (current Xcode simulator SDKs reject lower values).
+- The framework is arm64-only: exclude x86_64 on the Runner target and all pods with `EXCLUDED_ARCHS[sdk=iphonesimulator*] = x86_64` (quote the conditional key when editing `project.pbxproj` by hand).
+- Current SDKs require the UIScene lifecycle: declare `UIApplicationSceneManifest` in `Info.plist` and return a `UISceneConfiguration` whose `delegateClass` is `FlutterSceneDelegate`. Unity is still initialized in `didFinishLaunchingWithOptions` via `InitUnityIntegrationWithOptions`.
+- Run `pod install` after `flutter pub get`.
+
+### Notes
+
+- The upstream **Platform specific setup** steps below (Gradle `settings.gradle` source-project wiring / Xcode project merge) are **replaced** by this mode — skip them.
+- The plugin repo ships `android/libs/unity-classes.jar`; keep the copy deployed to `<flutter>/android/unityLibrary/` in sync with your Unity version.
+- iOS simulator builds need a dedicated export method that switches the SDK to `SimulatorSDK` **and forces the ARM64 simulator architecture** (`PlayerSettings.iOS.simulatorSdkArchitecture = AppleMobileArchitectureSimulator.ARM64`): Unity 2022.3 defaults to x86_64, which produces an arm64-incompatible `libil2cpp.a` and leaves the framework without any il2cpp symbols. The example ships this wrapper as [`example/unity/DemoApp/Assets/Editor/SimulatorExport.cs`](example/unity/DemoApp/Assets/Editor/SimulatorExport.cs). When archiving for the simulator, keep the Unity project's own framework link flags in `OTHER_LDFLAGS` (override with `$(OTHER_LDFLAGS_FRAMEWORK) -ObjC -Wl,-undefined,dynamic_lookup -Wl,-force_load,$(BUILT_PRODUCTS_DIR)/libGameAssembly.a`); `libil2cpp.a` has compile-time references and needs no extra `force_load`.
 
 ## Notice
 Need me to respond, tag me [Rex Isaac Raphael](https://github.com/juicycleff). 

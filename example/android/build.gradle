@@ -1,7 +1,9 @@
 allprojects {
     repositories {
+        // Unity 预编译 aar/jar 所在目录(unityLibrary 目录无 build.gradle,
+        // 不能再用 project(':unityLibrary') 定位)
         flatDir {
-            dirs "${project(':unityLibrary').projectDir}/libs"
+            dirs "${rootProject.projectDir}/unityLibrary"
         }
 
         google()

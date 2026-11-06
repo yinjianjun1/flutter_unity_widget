@@ -8,7 +8,7 @@ plugins {
 // flutter. variables commented for backwards compatibility with Flutter 3.16 and 3.19.
 android {
     namespace = "com.xraph.plugin.flutter_unity_widget_example"
-    compileSdk = 34 // flutter.compileSdkVersion
+    compileSdk = 36 // flutter_plugin_android_lifecycle 要求 SDK 36
     // ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -45,6 +45,7 @@ flutter {
 }
 
 dependencies {
-    implementation project(':unityLibrary')
+    // Unity 预编译 aar 由 flutter_unity_widget 插件 flatDir 依赖传入
+    // (参考 Hub 工程:app 不直接依赖 unityLibrary,避免 unity-classes 重复)
     implementation project(':flutter_unity_widget')
 }

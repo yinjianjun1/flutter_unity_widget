@@ -1,5 +1,5 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '11.0'
+# Flutter 3.41 最低支持 iOS 13.0，未指定时 CocoaPods 回落 11.0 会解析失败
+platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -37,5 +37,12 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    # Xcode 27.2 模拟器 SDK 最低支持 15.0,各 Pod 默认值(9.0/13.0)会构建失败
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      # UnityFramework-Simulator.framework 仅含 arm64 slice,排除 x86_64
+      # 否则 Pod/Runner 的 x86_64 slice 链接时 Undefined symbol
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'x86_64'
+    end
   end
 end

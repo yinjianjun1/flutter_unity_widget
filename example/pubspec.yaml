@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_unity_widget:
+    # 本 example 位于插件仓库内，插件包即上层目录
     path: ../
   pointer_interceptor: ^0.10.0
 
