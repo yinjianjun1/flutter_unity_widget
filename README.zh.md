@@ -144,8 +144,8 @@ import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 30 fps 的 gif，展示 Flutter 与 Unity 的通信效果：
 
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/preview_android.gif?raw=true)
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/preview_ios.gif?raw=true)
+![gif](files/preview_android.gif)
+![gif](files/preview_ios.gif)
 
 <br />
 
@@ -159,7 +159,7 @@ import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 - 一个已有的 Unity 工程（没有的话可以[新建一个](https://learn.unity.com/tutorial/create-your-first-unity-project)）。
 
-- 一个 `fuw-XXXX.unitypackage` 文件，见 [*unitypackages*](https://github.com/juicycleff/flutter-unity-view-widget/tree/master/unitypackages) 目录。尽量使用最新的 unitypackage。
+- 一个 `fuw-XXXX.unitypackage` 文件，见 [*unitypackages*](unitypackages) 目录。尽量使用最新的 unitypackage。
 
 ### 发布所需的 Unity 版本
 如果要发布 Android 或 iOS 应用，需要满足特定的 Unity 版本要求。
@@ -208,7 +208,7 @@ Apple 的[隐私清单要求](https://discussions.unity.com/t/apple-privacy-mani
   - （Web）将 <b>Publishing settings > Compression format</b> 设为 Brotli 或 Disabled。  
   有用户反馈 Gzip 设置下 Unity 因 MIME 类型错误卡在加载界面。
 
-  <img src="https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/Screenshot%202019-03-27%2007.31.55.png" width="400" />
+  <img src="files/Screenshot%202019-03-27%2007.31.55.png" width="400" />
 
 5. 在 **File > Build Settings** 中，确保至少加入 1 个场景。
 
@@ -229,7 +229,7 @@ Apple 的[隐私清单要求](https://discussions.unity.com/t/apple-privacy-mani
    导出到 *ios/UnityLibrary*。
   - 不要使用 **Flutter > Export _Platform_ plugin**，它是为大型项目配合 [`flutter_unity_cli`](https://github.com/juicycleff/flutter_unity_cli) 使用的。
  
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/Unity_Build_Options.png?raw=true" width="400" />
+  <img src="files/Unity_Build_Options.png" width="400" />
  
    如果你用 git，大概率要把这些 unityLibrary 目录加进 .gitignore。  
    这些目录可能非常大，且不保证在别的电脑上可用。
@@ -426,11 +426,11 @@ allprojects {
 
   1. 在 Xcode 中打开 *ios/Runner.xcworkspace*（workspace 而非 project），在 Navigator 空白处（不要点在具体条目上）右键，选择 **Add Files to "Runner"**，添加 *ios/UnityLibrary/Unity-Iphone.xcodeproj* 文件。
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/workspace.png" width="400" />
+  <img src="files/workspace.png" width="400" />
   
   2. （可选）选中 *Unity-iPhone/Data* 文件夹，把 Data 文件夹的 Target Membership 改为 UnityFramework。
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/change_target_membership_data_folder.png" width="400" />
+  <img src="files/change_target_membership_data_folder.png" width="400" />
   
   3.1. 如果使用 Swift，打开 *ios/Runner/AppDelegate.swift*，修改：
 
@@ -467,7 +467,7 @@ allprojects {
 
   4. 将 *UnityFramework.framework* 作为库添加到 Runner 工程。
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/libraries.png" width="400" />
+  <img src="files/libraries.png" width="400" />
   
   5. 使用原生代码的 Unity 插件（Vuforia、openCV 等）可能需要像 UnityFramework 一样添加到 Runner。  
   查看 `/ios/UnityLibrary/Frameworks/` 目录内容。该目录（含子目录）中的任何 `<name>.framework` 都可以添加到 Runner。
@@ -483,7 +483,7 @@ allprojects {
 
 ### 配置 AR
 
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/ar-demo.gif?raw=true)
+![gif](files/ar-demo.gif)
 
 以下 AR 配置在 Unity 导出之后进行。
 
@@ -1026,7 +1026,7 @@ Unity iOS 构建需要把 flavor 添加到 Unity iOS 配置中。
 
 你的 `Runner` 配置类似这样：
 
-![iOS Runner Config](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/iOSRunnerConfig.png)
+![iOS Runner Config](files/iOSRunnerConfig.png)
 
 即有这些 flavor：
 
@@ -1041,7 +1041,7 @@ Unity iOS 构建需要把 flavor 添加到 Unity iOS 配置中。
 
 2. 进入 `Unity-IPhone` 工程 -> PROJECT `Unity-IPhone` -> Info：
 
-![Unity-IPhone](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/UnityIPhone.png)
+![Unity-IPhone](files/UnityIPhone.png)
 
 Configurations 区域目前只有：
 
@@ -1054,7 +1054,7 @@ Configurations 区域目前只有：
 
 操作方式：点 `+` 并复制配置：
 
-![Duplicate configuration](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/DuplicateConfig.png)
+![Duplicate configuration](files/DuplicateConfig.png)
 
 4. 对 `Release` 重复操作，得到 `Release-dev` 和 `Release-prod`。
 
@@ -1062,7 +1062,7 @@ Configurations 区域目前只有：
 
 6. `Unity-IPhone` 的配置最终应如下所示：
 
-![Unity Configurations](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/UnityConfigurations.png)
+![Unity Configurations](files/UnityConfigurations.png)
 
 ### Web
 
@@ -1129,14 +1129,14 @@ Stack(
 
 [version-badge]: https://img.shields.io/pub/v/flutter_unity_widget.svg?style=flat-square
 [package]: https://pub.dartlang.org/packages/flutter_unity_widget/
-[license-badge]: https://img.shields.io/github/license/juicycleff/flutter-unity-view-widget.svg?style=flat-square
-[license]: https://github.com/juicycleff/flutter-unity-view-widget/blob/master/LICENSE
+[license-badge]: https://img.shields.io/github/license/yinjianjun1/flutter_unity_widget.svg?style=flat-square
+[license]: https://github.com/yinjianjun1/flutter_unity_widget/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: https://makeapullrequest.com
-[github-watch-badge]: https://img.shields.io/github/watchers/juicycleff/flutter-unity-view-widget.svg?style=social
-[github-watch]: https://github.com/juicycleff/flutter-unity-view-widget/watchers
-[github-star-badge]: https://img.shields.io/github/stars/juicycleff/flutter-unity-view-widget.svg?style=social
-[github-star]: https://github.com/juicycleff/flutter-unity-view-widget/stargazers
+[github-watch-badge]: https://img.shields.io/github/watchers/yinjianjun1/flutter_unity_widget.svg?style=social
+[github-watch]: https://github.com/yinjianjun1/flutter_unity_widget/watchers
+[github-star-badge]: https://img.shields.io/github/stars/yinjianjun1/flutter_unity_widget.svg?style=social
+[github-star]: https://github.com/yinjianjun1/flutter_unity_widget/stargazers
 
 ## 贡献者 ✨
 

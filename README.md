@@ -145,8 +145,8 @@ You will need to open and export a Unity project, even for running the example. 
 
 30 fps gifs, showcasing communication between Flutter and Unity:
 
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/preview_android.gif?raw=true)
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/preview_ios.gif?raw=true)
+![gif](files/preview_android.gif)
+![gif](files/preview_ios.gif)
 
 <br />
 
@@ -161,7 +161,7 @@ the platform name (Android or iOS). You can click on its icon to expand it.
 
 - An existing Unity project (if there is none, you can [create a new one](https://learn.unity.com/tutorial/create-your-first-unity-project)).
 
-- A `fuw-XXXX.unitypackage` file, found in the [*unitypackages*](https://github.com/juicycleff/flutter-unity-view-widget/tree/master/unitypackages) folder.
+- A `fuw-XXXX.unitypackage` file, found in the [*unitypackages*](unitypackages) folder.
 Try to use the most recent unitypackage available.
 
 ### Unity versions for  publishing
@@ -212,7 +212,7 @@ These instructions assume you are using a new Unity project. If you open the exa
   - (Web) Set <b>Publishing settings > Compression format</b> to Brotli or Disabled.  
   Some users report that Unity gets stuck on the loading screen with the Gzip setting, due to MIME type errors.
 
-  <img src="https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/Screenshot%202019-03-27%2007.31.55.png" width="400" />
+  <img src="files/Screenshot%202019-03-27%2007.31.55.png" width="400" />
 
 5. In **File > Build Settings**, make sure to have at least 1 scene added to your build.
 
@@ -233,7 +233,7 @@ If you end up having to change a build setting that doesn't seem to respond, tak
    This will export to *ios/UnityLibrary*.
   - Do not use **Flutter > Export _Platform_ plugin** as it was specially added to work with [`flutter_unity_cli`](https://github.com/juicycleff/flutter_unity_cli) for larger projects.
  
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/Unity_Build_Options.png?raw=true" width="400" />
+  <img src="files/Unity_Build_Options.png" width="400" />
  
    If you use git, you will probably want to add these unityLibrary folders to your gitignore file.
    These folders can get huge and are not guaranteed to work on another computer.
@@ -435,11 +435,11 @@ allprojects {
   1. Open the *ios/Runner.xcworkspace* (workspace, not the project) file in Xcode, right-click on the Navigator (not on an item), go to **Add Files to "Runner"** and add
   the *ios/UnityLibrary/Unity-Iphone.xcodeproj* file.
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/workspace.png" width="400" />
+  <img src="files/workspace.png" width="400" />
   
   2. (Optional) Select the *Unity-iPhone/Data* folder and change the Target Membership for Data folder to UnityFramework.
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/change_target_membership_data_folder.png" width="400" />
+  <img src="files/change_target_membership_data_folder.png" width="400" />
   
   3.1. If you're using Swift, open the *ios/Runner/AppDelegate.swift* file and change the following:
 
@@ -476,7 +476,7 @@ allprojects {
 
   4. Add the *UnityFramework.framework* file as a library to the Runner project.
   
-  <img src="https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/libraries.png" width="400" />
+  <img src="files/libraries.png" width="400" />
   
   5. Unity plugins that make use of native code (Vuforia, openCV, etc.) might need to be added to Runner like UnityFramework.  
   Check the contents of the `/ios/UnityLibrary/Frameworks/` directory. Any `<name>.framework` located in (subdirectories of) this directory is a framework that you can add to Runner.
@@ -492,7 +492,7 @@ allprojects {
 
 ### Setup AR
 
-![gif](https://github.com/juicycleff/flutter-unity-view-widget/blob/master/files/ar-demo.gif?raw=true)
+![gif](files/ar-demo.gif)
 
  The following setup for AR is done after making an export from Unity.
 
@@ -1040,7 +1040,7 @@ For your Unity iOS-Build you have to add your flavors to your Unity iOS Configur
 
 Your `Runner` configurations are looking like this:
 
-![iOS Runner Config](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/iOSRunnerConfig.png)
+![iOS Runner Config](files/iOSRunnerConfig.png)
 
 So you have the flavors:
 
@@ -1055,7 +1055,7 @@ These flavors needs to be added to your `Unity-IPhone` project.
 
 2. Go into your `Unity-IPhone` project -> PROJECT `Unity-IPhone` -> Info:
 
-![Unity-IPhone](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/UnityIPhone.png)
+![Unity-IPhone](files/UnityIPhone.png)
 
 Here you can see in the Configurations section only:
 
@@ -1068,7 +1068,7 @@ Here you can see in the Configurations section only:
 
 You can do that by selecting `+` and duplicate the configuration like this:
 
-![Duplicate configuration](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/DuplicateConfig.png)
+![Duplicate configuration](files/DuplicateConfig.png)
 
 4. Repeat this with `Release` to `Release-dev` and `Release-prod`.
 
@@ -1076,7 +1076,7 @@ You can do that by selecting `+` and duplicate the configuration like this:
 
 6. Your `Unity-IPhone` configurations should now look like this:
 
-![Unity Configurations](https://raw.githubusercontent.com/juicycleff/flutter-unity-view-widget/master/files/UnityConfigurations.png)
+![Unity Configurations](files/UnityConfigurations.png)
 
 ### Web
 
@@ -1143,14 +1143,14 @@ Support this project with your organization. Your donations will be used to help
 
 [version-badge]: https://img.shields.io/pub/v/flutter_unity_widget.svg?style=flat-square
 [package]: https://pub.dartlang.org/packages/flutter_unity_widget/
-[license-badge]: https://img.shields.io/github/license/juicycleff/flutter-unity-view-widget.svg?style=flat-square
-[license]: https://github.com/juicycleff/flutter-unity-view-widget/blob/master/LICENSE
+[license-badge]: https://img.shields.io/github/license/yinjianjun1/flutter_unity_widget.svg?style=flat-square
+[license]: https://github.com/yinjianjun1/flutter_unity_widget/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: https://makeapullrequest.com
-[github-watch-badge]: https://img.shields.io/github/watchers/juicycleff/flutter-unity-view-widget.svg?style=social
-[github-watch]: https://github.com/juicycleff/flutter-unity-view-widget/watchers
-[github-star-badge]: https://img.shields.io/github/stars/juicycleff/flutter-unity-view-widget.svg?style=social
-[github-star]: https://github.com/juicycleff/flutter-unity-view-widget/stargazers
+[github-watch-badge]: https://img.shields.io/github/watchers/yinjianjun1/flutter_unity_widget.svg?style=social
+[github-watch]: https://github.com/yinjianjun1/flutter_unity_widget/watchers
+[github-star-badge]: https://img.shields.io/github/stars/yinjianjun1/flutter_unity_widget.svg?style=social
+[github-star]: https://github.com/yinjianjun1/flutter_unity_widget/stargazers
 
 ## Contributors ✨
 

@@ -5,7 +5,9 @@ version: 2022.3.0
 #  - Rex Raphael <rex.raphael@outlook.com>
 #  - Thomas Stockx <thomas@stockxit.com>
 #  - Kris Pypen <kris.pypen@gmail.com>
-homepage: https://github.com/juicycleff/flutter-unity-view-widget/tree/master
+homepage: https://github.com/yinjianjun1/flutter_unity_widget
+repository: https://github.com/yinjianjun1/flutter_unity_widget
+issue_tracker: https://github.com/yinjianjun1/flutter_unity_widget/issues
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
