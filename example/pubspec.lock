@@ -75,11 +75,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_unity_widget:
+  flutter_unity_widget_plus:
     dependency: "direct main"
     description:
-      path: "/Users/mono/项目/Flutter/Packages/flutter_unity_widget"
-      relative: false
+      path: ".."
+      relative: true
     source: path
     version: "2022.3.0"
   flutter_web_plugins:

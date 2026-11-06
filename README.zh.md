@@ -1,4 +1,4 @@
-# flutter_unity_widget
+# flutter_unity_widget_plus
 
 [🇺🇸 English](README.md) | [🇨🇳 简体中文](README.zh.md)
 
@@ -70,7 +70,7 @@ implementation(name: 'unity-classes', ext: 'jar')
 应用侧配置（已在 [`example/`](example/) 中验证）：
 
 - **不要**在 `settings.gradle` 中 `include ':unityLibrary'`——部署目录里只有 AAR/JAR，没有 `build.gradle`。
-- **不要**在 `app/build.gradle` 里重复声明 AAR/JAR 依赖——插件已声明过两者，重复会导致 `Duplicate class` 错误。应用层只需要 `implementation project(':flutter_unity_widget')`。
+- **不要**在 `app/build.gradle` 里重复声明 AAR/JAR 依赖——插件已声明过两者，重复会导致 `Duplicate class` 错误。应用层只需要 `implementation project(':flutter_unity_widget_plus')`。
 - 在根项目用 `flatDir { dirs "${rootProject.projectDir}/unityLibrary" }` 仓库解析 AAR 目录。
 - Kotlin Gradle 插件版本与插件的 Kotlin stdlib 对齐（2.1.20）——旧编译器读不了新 stdlib 的 metadata。
 - 应用 `compileSdk` 设为 36。
@@ -93,7 +93,7 @@ implementation(name: 'unity-classes', ext: 'jar')
    - `nm -g UnityFramework` 导出 `_OBJC_CLASS_$_UnityAppController`（ObjC 类必须是全局可见符号，否则 Flutter 链接报 `Undefined symbol`）
    - `nm -g UnityFramework` 导出 `_il2cpp_init`（Unity 原生跳板用 dlsym 加载 il2cpp；缺失则运行时崩溃 "Could not load symbol il2cpp_init"）
 
-插件的 `ios/flutter_unity_widget.podspec` 已按此方式消费 framework：
+插件的 `ios/flutter_unity_widget_plus.podspec` 已按此方式消费 framework：
 
 ```ruby
 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" ...',
@@ -128,13 +128,13 @@ implementation(name: 'unity-classes', ext: 'jar')
 先在应用的 `pubspec.yaml` 中添加依赖：
 ```yaml
 dependencies:
-  flutter_unity_widget: ^2022.2.1 # 使用最新的兼容版本
+  flutter_unity_widget_plus: ^2022.2.1 # 使用最新的兼容版本
 ```
 
 然后在 Dart 代码中导入即可。
 
 ```dart
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 ```
 
 你需要打开并导出一个 Unity 工程，即使只是运行示例。只把组件放进 Flutter 而不导出 Unity，构建会失败！
@@ -279,7 +279,7 @@ android {
 不做这一步 Unity 组件也能工作，但在较新的 Unity 版本上，ArFoundation 等部分 Unity 插件会抛 `mUnityPlayer` 错误。
 
     适用于 Unity 2020.3.46+、2021.3.19 - 2021.3.20 和 2022.2.4 - 2022.3.18。  
-要求 flutter_unity_widget 版本高于 2022.2.1。
+要求 flutter_unity_widget_plus 版本高于 2022.2.1。
 
 
 - 3.1. 打开 `android/app/build.gradle`，添加：
@@ -287,9 +287,9 @@ android {
 ```diff
      dependencies {
          // build.gradle
-+        implementation project(':flutter_unity_widget')
++        implementation project(':flutter_unity_widget_plus')
          // build.gradle.kts (Flutter 3.29+)
-+        implementation(project(":flutter_unity_widget"))
++        implementation(project(":flutter_unity_widget_plus"))
      }
 ```
 - 3.2. 修改 Android 的 MainActivity 文件。  
@@ -437,7 +437,7 @@ allprojects {
 ```diff
      import UIKit
      import Flutter
-+    import flutter_unity_widget
++    import flutter_unity_widget_plus
 
      @UIApplicationMain
      @objc class AppDelegate: FlutterAppDelegate {
@@ -455,7 +455,7 @@ allprojects {
 
    3.2. 如果使用 Objective-C，打开 *ios/Runner/main.m*，修改：
 ```diff
-+    #import "flutter_unity_widget.swift.h"
++    #import "flutter_unity_widget_plus.swift.h"
 
      int main(int argc, char * argv[]) {
           @autoreleasepool {
@@ -609,7 +609,7 @@ Unity Player Settings 中的 `Target SDK` 选项很关键。
   如果以 Simulator SDK 导出，此处应只显示 `x86_64`。  
 6. 选中 `Runner`，将架构改为与 Unity-iPhone 完全一致。  
   确保只有 `x86_64` 一项，而不是多项之一。  
-7. 选中 `Pods`，在 targets 中点击 `flutter_unity_widget`。  
+7. 选中 `Pods`，在 targets 中点击 `flutter_unity_widget_plus`。  
   再次进入 Build settings 的 Architectures，将 `Build Active Architecture Only` 设为 `YES`。  
   （我们要它只用当前活跃的 x86_64，不要回退到 arm。）   
 8. 运行 `Product -> Clean Build Folder`，确保新的架构设置生效。  
@@ -702,7 +702,7 @@ SendMessageToFlutter(o.ToString());
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 
 void main() {
   runApp(
@@ -748,7 +748,7 @@ class _UnityDemoScreenState extends State<UnityDemoScreen> {
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 
 void main() {
   runApp(
@@ -1127,8 +1127,8 @@ Stack(
 <a href="https://opencollective.com/ultimate-backend/sponsor/8/website"><img src="https://opencollective.com/ultimate-backend/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/ultimate-backend/sponsor/9/website"><img src="https://opencollective.com/ultimate-backend/sponsor/9/avatar.svg"></a>
 
-[version-badge]: https://img.shields.io/pub/v/flutter_unity_widget.svg?style=flat-square
-[package]: https://pub.dartlang.org/packages/flutter_unity_widget/
+[version-badge]: https://img.shields.io/pub/v/flutter_unity_widget_plus.svg?style=flat-square
+[package]: https://pub.dev/packages/flutter_unity_widget_plus
 [license-badge]: https://img.shields.io/github/license/yinjianjun1/flutter_unity_widget.svg?style=flat-square
 [license]: https://github.com/yinjianjun1/flutter_unity_widget/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square

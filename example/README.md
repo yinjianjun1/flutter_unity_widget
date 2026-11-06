@@ -2,7 +2,7 @@
 
 English | [简体中文](README.zh.md)
 
-Demonstrates how to use the flutter_unity_widget plugin in the
+Demonstrates how to use the flutter_unity_widget_plus plugin in the
 **prebuilt-artifact integration mode**: a single script turns the Unity project
 into an `unityLibrary.aar` (Android) and a `UnityFramework.framework` (iOS), and
 the Flutter app consumes these artifacts with no Unity toolchain dependency at
@@ -57,7 +57,7 @@ Each target is a two-step pipeline:
 
 ```yaml
 dependencies:
-  flutter_unity_widget:
+  flutter_unity_widget_plus:
     path: <path to the plugin package>
 ```
 
@@ -71,7 +71,7 @@ reference `unityLibrary` as a Gradle project:
 - Do not add a second `implementation(name: 'unityLibrary', ext: 'aar')` or
   `unity-classes.jar` dependency in `app/build.gradle` — the plugin already
   declares them, and duplicates cause `Duplicate class` errors. App-level
-  dependencies only need `implementation project(':flutter_unity_widget')`.
+  dependencies only need `implementation project(':flutter_unity_widget_plus')`.
 - Resolve the AAR directory with a root-level `flatDir` repository:
   `dirs "${rootProject.projectDir}/unityLibrary"`.
 - Align the Kotlin plugin version with the plugin's Kotlin stdlib (2.1.20 here);

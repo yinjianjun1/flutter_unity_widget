@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-演示如何以**预编译产物集成模式**使用 flutter_unity_widget 插件：一条脚本把 Unity
+演示如何以**预编译产物集成模式**使用 flutter_unity_widget_plus 插件：一条脚本把 Unity
 工程导出为 `unityLibrary.aar`（Android）和 `UnityFramework.framework`（iOS），
 Flutter 应用直接消费这些产物，应用构建期不依赖任何 Unity 工具链。
 
@@ -53,7 +53,7 @@ lib/                      # Flutter 应用源码（UnityWidget 用法）
 
 ```yaml
 dependencies:
-  flutter_unity_widget:
+  flutter_unity_widget_plus:
     path: <插件包路径>
 ```
 
@@ -68,7 +68,7 @@ dependencies:
   `implementation(name: 'unityLibrary', ext: 'aar')` 或
   `unity-classes.jar` 依赖 —— 插件已声明过，重复声明会导致
   `Duplicate class` 错误。应用层依赖只需要
-  `implementation project(':flutter_unity_widget')`。
+  `implementation project(':flutter_unity_widget_plus')`。
 - 在根项目用 `flatDir` 仓库解析 AAR 目录：
   `dirs "${rootProject.projectDir}/unityLibrary"`。
 - Kotlin 插件版本与插件的 Kotlin stdlib 对齐（本工程为 2.1.20）；

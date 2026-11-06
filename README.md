@@ -1,4 +1,4 @@
-# flutter_unity_widget
+# flutter_unity_widget_plus
 
 [🇺🇸 English](README.md) | [🇨🇳 简体中文](README.zh.md)
 
@@ -70,7 +70,7 @@ implementation(name: 'unity-classes', ext: 'jar')
 On the app side (verified in [`example/`](example/)):
 
 - Do **not** `include ':unityLibrary'` in `settings.gradle` — the deployed directory contains only the AAR/JAR, no `build.gradle`.
-- Do **not** re-declare the AAR/JAR dependencies in `app/build.gradle` — the plugin already declares both, and duplicates fail with `Duplicate class`. The app only needs `implementation project(':flutter_unity_widget')`.
+- Do **not** re-declare the AAR/JAR dependencies in `app/build.gradle` — the plugin already declares both, and duplicates fail with `Duplicate class`. The app only needs `implementation project(':flutter_unity_widget_plus')`.
 - Resolve the AAR directory with a root-level `flatDir { dirs "${rootProject.projectDir}/unityLibrary" }` repository.
 - Align the Kotlin Gradle plugin version with the plugin's Kotlin stdlib (2.1.20) — an older compiler fails on newer stdlib metadata.
 - Set the app `compileSdk` to 36.
@@ -93,7 +93,7 @@ On the app side (verified in [`example/`](example/)):
    - `nm -g UnityFramework` exports `_OBJC_CLASS_$_UnityAppController` (ObjC classes must be globally visible, otherwise Flutter linking fails with `Undefined symbol`)
    - `nm -g UnityFramework` exports `_il2cpp_init` (the Unity native trampoline dlsym-loads il2cpp; missing → runtime crash "Could not load symbol il2cpp_init")
 
-The plugin's `ios/flutter_unity_widget.podspec` already consumes the framework this way:
+The plugin's `ios/flutter_unity_widget_plus.podspec` already consumes the framework this way:
 
 ```ruby
 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" ...',
@@ -129,13 +129,13 @@ This plugin requires Flutter >= 3.16.0.
 First depend on the library by adding this to your packages `pubspec.yaml`:
 ```yaml
 dependencies:
-  flutter_unity_widget: ^2022.2.1 # use the latest compatible version
+  flutter_unity_widget_plus: ^2022.2.1 # use the latest compatible version
 ```
 
 Now inside your Dart code you can import it.
 
 ```dart
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 ```
 
 You will need to open and export a Unity project, even for running the example. Your build will fail if you only include the widget in Flutter!
@@ -287,7 +287,7 @@ Check the **Minimum API Level** setting in the Unity player settings, and match 
 The Unity widget will function without this step, but some Unity plugins like ArFoundation will throw `mUnityPlayer` errors on newer Unity versions.  
 
     This is needed for Unity 2020.3.46+, 2021.3.19 - 2021.3.20 and 2022.2.4 - 2022.3.18.  
-This requires a flutter_unity_widget version that is newer than 2022.2.1.  
+This requires a flutter_unity_widget_plus version that is newer than 2022.2.1.  
 
 
 - 3.1. Open the `android/app/build.gradle` file and add the following:
@@ -295,9 +295,9 @@ This requires a flutter_unity_widget version that is newer than 2022.2.1.
 ```diff
      dependencies {
          // build.gradle
-+        implementation project(':flutter_unity_widget')
++        implementation project(':flutter_unity_widget_plus')
          // build.gradle.kts (Flutter 3.29+)
-+        implementation(project(":flutter_unity_widget"))
++        implementation(project(":flutter_unity_widget_plus"))
      }
 ```
 - 3.2. Edit your android MainActivity file.  
@@ -446,7 +446,7 @@ allprojects {
 ```diff
      import UIKit
      import Flutter
-+    import flutter_unity_widget
++    import flutter_unity_widget_plus
 
      @UIApplicationMain
      @objc class AppDelegate: FlutterAppDelegate {
@@ -464,7 +464,7 @@ allprojects {
 
    3.2. If you're using Objective-C, open the *ios/Runner/main.m* file and change the following:
 ```diff
-+    #import "flutter_unity_widget.swift.h"
++    #import "flutter_unity_widget_plus.swift.h"
 
      int main(int argc, char * argv[]) {
           @autoreleasepool {
@@ -622,7 +622,7 @@ The rest depends on the type of processor in your mac:
   If you exported Unity with the Simulator SDK, it should show only `x86_64` for architectures.  
 6. Now select `Runner` and change the architecture to exactly match Unity-iPhone.  
   Make sure `x86_64` is the only entry, not one of multiple.
-7. Now select `Pods` and click `flutter_unity_widget` in targets.  
+7. Now select `Pods` and click `flutter_unity_widget_plus` in targets.  
   Go to Architectures in build settings again and set `Build Active Architecture Only` to `YES`.  
   (We want this to only use the active x86_64, not fall back to arm.)   
 8. Run `Product -> Clean Build Folder` to make sure the new architecture settings are used.  
@@ -715,7 +715,7 @@ SendMessageToFlutter(o.ToString());
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 
 void main() {
   runApp(
@@ -761,7 +761,7 @@ class _UnityDemoScreenState extends State<UnityDemoScreen> {
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 
 void main() {
   runApp(
@@ -1141,8 +1141,8 @@ Support this project with your organization. Your donations will be used to help
 <a href="https://opencollective.com/ultimate-backend/sponsor/8/website"><img src="https://opencollective.com/ultimate-backend/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/ultimate-backend/sponsor/9/website"><img src="https://opencollective.com/ultimate-backend/sponsor/9/avatar.svg"></a>
 
-[version-badge]: https://img.shields.io/pub/v/flutter_unity_widget.svg?style=flat-square
-[package]: https://pub.dartlang.org/packages/flutter_unity_widget/
+[version-badge]: https://img.shields.io/pub/v/flutter_unity_widget_plus.svg?style=flat-square
+[package]: https://pub.dev/packages/flutter_unity_widget_plus
 [license-badge]: https://img.shields.io/github/license/yinjianjun1/flutter_unity_widget.svg?style=flat-square
 [license]: https://github.com/yinjianjun1/flutter_unity_widget/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square

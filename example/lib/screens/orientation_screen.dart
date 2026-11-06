@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget_plus/flutter_unity_widget_plus.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class OrientationScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
 name: flutter_unity_widget_example
-description: Demonstrates how to use the flutter_unity_widget plugin.
+description: Demonstrates how to use the flutter_unity_widget_plus plugin.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -14,7 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   flutter:
     sdk: flutter
-  flutter_unity_widget:
+  flutter_unity_widget_plus:
     # 本 example 位于插件仓库内，插件包即上层目录
     path: ../
   pointer_interceptor: ^0.10.0
